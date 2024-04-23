@@ -1,0 +1,25 @@
+name: Generate Documentation
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  documentation:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Doxygen
+      run: sudo apt install doxygen
+
+    - name: Generate Doxygen Documentation
+      run: doxygen Doxyfile
+
+    - name: Upload Documentation as Artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: documentation
+        path: ./html
